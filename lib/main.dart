@@ -50,18 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
-          IconButton(
+          TextButton.icon(
+            label: const Text('Add'),
             onPressed: () => _notifier.addCounter(),
             icon: const Icon(Icons.add),
           )
         ],
       ),
       body: AppLayout(_notifier),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
@@ -77,14 +73,14 @@ class AppLayout extends StatelessWidget {
     return switch ((screenSize, orientation)) {
       (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
           children: [
-            Expanded(child: CountersPage(_notifier)),
+            Expanded(child: CountersPage(_notifier, false)),
             Expanded(
               child: CounterDetailPage(_notifier),
             ),
           ],
         ),
-      (_, Orientation.landscape) => CountersPage(_notifier),
-      _ => CountersPage(_notifier)
+      (_, Orientation.landscape) => CountersPage(_notifier, true),
+      _ => CountersPage(_notifier, true)
     };
   }
 }
