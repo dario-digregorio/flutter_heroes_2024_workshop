@@ -64,9 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
     final orientation = MediaQuery.orientationOf(context);
     return Scaffold(
       bottomNavigationBar: switch ((screenSize, orientation)) {
-        (_, Orientation.landscape) => null,
-        (ScreenSize.large, _) => null,
-        (_, _) => const CounterNavigationBar(),
+        (ScreenSize.normal || ScreenSize.small, Orientation.portrait) =>
+          CounterNavigationBar(),
+        (_) => null,
       },
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
