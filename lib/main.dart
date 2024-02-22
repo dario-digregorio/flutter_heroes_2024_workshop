@@ -37,12 +37,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final _notifier = CountersNotifier();
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    _notifier.increment();
   }
 
   @override
@@ -51,8 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: () => _notifier.addCounter(),
+            icon: const Icon(Icons.add),
+          )
+        ],
       ),
-      body: AppLayout(),
+      body: AppLayout(_notifier),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -63,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class AppLayout extends StatelessWidget {
-  AppLayout({super.key});
-  final _notifier = CountersNotifier();
+  final CountersNotifier _notifier;
+  AppLayout(this._notifier, {super.key});
 
   @override
   Widget build(BuildContext context) {
