@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_heroes_2024_workshop/core/constants.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,5 +75,18 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+class AppLayout extends StatelessWidget {
+  const AppLayout({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = getScreenSize(context);
+    return switch (screenSize) {
+      ScreenSize.extraLarge => Row(),
+      _ => Container()
+    };
   }
 }
