@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_heroes_2024_workshop/notifier/counter_notifier.dart';
 
 class CounterDetailPage extends StatelessWidget {
-  const CounterDetailPage({super.key});
+  const CounterDetailPage(CountersNotifier notifier, {super.key});
 
   @override
   Widget build(BuildContext context) {

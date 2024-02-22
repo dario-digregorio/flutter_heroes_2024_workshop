@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_heroes_2024_workshop/core/constants.dart';
+import 'package:flutter_heroes_2024_workshop/notifier/counter_notifier.dart';
 import 'package:flutter_heroes_2024_workshop/pages/counter_detail_page.dart';
 import 'package:flutter_heroes_2024_workshop/pages/counters_page.dart';
 
@@ -62,7 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class AppLayout extends StatelessWidget {
-  const AppLayout({super.key});
+  AppLayout({super.key});
+  final _notifier = CountersNotifier();
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +73,14 @@ class AppLayout extends StatelessWidget {
     return switch ((screenSize, orientation)) {
       (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
           children: [
-            Expanded(child: CountersPage()),
+            Expanded(child: CountersPage(_notifier)),
             Expanded(
-              child: CounterDetailPage(),
+              child: CounterDetailPage(_notifier),
             ),
           ],
         ),
-      (_, Orientation.landscape) => CountersPage(),
-      _ => CountersPage()
+      (_, Orientation.landscape) => CountersPage(_notifier),
+      _ => CountersPage(_notifier)
     };
   }
 }

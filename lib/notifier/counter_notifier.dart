@@ -6,7 +6,7 @@ class CountersNotifier with ChangeNotifier {
 
   int get selectedIndex => _selectedIndex;
   int get selectedCounter => _counters[_selectedIndex];
-  List<int> get countersCount => _counters;
+  List<int> get counters => _counters;
 
   void select(int index) {
     _selectedIndex = index;
