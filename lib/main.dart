@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_heroes_2024_workshop/core/constants.dart';
+import 'package:flutter_heroes_2024_workshop/pages/counter_detail_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,28 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Row(
-        children: [
-          Expanded(
-              child: Container(color: Theme.of(context).colorScheme.primary)),
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: AppLayout(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -84,9 +66,18 @@ class AppLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = getScreenSize(context);
-    return switch (screenSize) {
-      ScreenSize.extraLarge => Row(),
-      _ => Container()
+    final orientation = MediaQuery.orientationOf(context);
+    return switch ((screenSize, orientation)) {
+      (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
+          children: [
+            Expanded(
+                child: Container(color: Theme.of(context).colorScheme.primary)),
+            Expanded(
+              child: CounterDetailPage(),
+            ),
+          ],
+        ),
+      _ => CounterDetailPage()
     };
   }
 }

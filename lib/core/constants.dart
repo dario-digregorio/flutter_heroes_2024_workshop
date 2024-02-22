@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 enum ScreenSize {
+  extraSmall(200),
   small(300),
   normal(400),
   large(600),
