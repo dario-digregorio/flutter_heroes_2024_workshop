@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_heroes_2024_workshop/core/constants.dart';
 import 'package:flutter_heroes_2024_workshop/pages/counter_detail_page.dart';
+import 'package:flutter_heroes_2024_workshop/pages/counters_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,14 +71,14 @@ class AppLayout extends StatelessWidget {
     return switch ((screenSize, orientation)) {
       (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
           children: [
-            Expanded(
-                child: Container(color: Theme.of(context).colorScheme.primary)),
+            Expanded(child: CountersPage()),
             Expanded(
               child: CounterDetailPage(),
             ),
           ],
         ),
-      _ => CounterDetailPage()
+      (_, Orientation.landscape) => CountersPage(),
+      _ => CountersPage()
     };
   }
 }
