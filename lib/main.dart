@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_heroes_2024_workshop/core/constants.dart';
+import 'package:flutter_heroes_2024_workshop/core/navigation.dart';
 import 'package:flutter_heroes_2024_workshop/notifier/counter_notifier.dart';
 import 'package:flutter_heroes_2024_workshop/pages/counter_detail_page.dart';
 import 'package:flutter_heroes_2024_workshop/pages/counters_page.dart';
@@ -61,7 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = getScreenSize(context);
+    final orientation = MediaQuery.orientationOf(context);
     return Scaffold(
+      bottomNavigationBar: switch ((screenSize, orientation)) {
+        (_, Orientation.landscape) => null,
+        (ScreenSize.large, _) => null,
+        (_, _) => const CounterNavigationBar(),
+      },
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
@@ -73,30 +79,26 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: AppLayout(_notifier),
+      body: switch ((screenSize, orientation)) {
+        (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
+            children: [
+              CounterNavigationRail(),
+              VerticalDivider(),
+              Expanded(child: CountersPage(_notifier, false)),
+              Expanded(
+                child: CounterDetailPage(_notifier),
+              ),
+            ],
+          ),
+        (_, Orientation.landscape) => Row(
+            children: [
+              CounterNavigationRail(),
+              VerticalDivider(),
+              Expanded(child: CountersPage(_notifier, true)),
+            ],
+          ),
+        _ => CountersPage(_notifier, true)
+      },
     );
-  }
-}
-
-class AppLayout extends StatelessWidget {
-  final CountersNotifier _notifier;
-  AppLayout(this._notifier, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = getScreenSize(context);
-    final orientation = MediaQuery.orientationOf(context);
-    return switch ((screenSize, orientation)) {
-      (ScreenSize.extraLarge || ScreenSize.large, _) => Row(
-          children: [
-            Expanded(child: CountersPage(_notifier, false)),
-            Expanded(
-              child: CounterDetailPage(_notifier),
-            ),
-          ],
-        ),
-      (_, Orientation.landscape) => CountersPage(_notifier, true),
-      _ => CountersPage(_notifier, true)
-    };
   }
 }
